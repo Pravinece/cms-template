@@ -1,8 +1,8 @@
 import { useActionState, useState, useEffect } from "react";
 import { useFormStatus } from "react-dom";
 import { useNavigate } from "react-router-dom";
-import instance from "../../components/utils/service";
-import { setSecureToken, setSecureUser } from "../../components/lib/cookieAuth";
+import instance from "../../utils/service";
+import { setSecureToken, setSecureUser } from "../../lib/cookieAuth";
 import s from "./Login.module.css";
 
 function SubmitButton() {
@@ -25,26 +25,17 @@ async function loginAction(prevState, formData) {
   if (!username) return { code: "U_EMPTY" };
   if (!/^[a-zA-Z0-9_]{3,20}$/.test(username)) return { code: "U_INVALID", username, password };
   if (!password) return { code: "P_EMPTY" };
-  // if (!/^(?=.*[A-Z])(?=.*\d).{8,}$/.test(password))
-    // return { code: "P_INVALID", username, password };
 
-  let payload = {
-    captchaInput: "",
-    clientId: "119017",
-    password: "cc",
-    platform: "web",
-    username: "sadmin",
-  };
   try {
     const res = await instance.post(
-      `${import.meta.env.VITE_API_URL}/api/loginadmin`,
-      payload
-      // { username, password },
+      `/api/admin/login`,
+      {empId:username, password}
     );
+    res.data.users = []
     setSecureUser(res?.data);
-    setSecureToken(res?.data?.Token);
     return { success: true };
   } catch (error) {
+    console.log('error: ', error);
     return {
       code: "API_ERR",
       message: error?.response?.message,

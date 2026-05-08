@@ -10,7 +10,15 @@ export default defineConfig(({ mode }) => {
     plugins: [react(), tailwindcss()],
     base: env.VITE_APP,
     build: {
-      outDir: 'canara',
+      outDir: 'pnb-cms',
+    },
+    server: {
+      proxy: {
+        '/api': {
+          target: env.VITE_API_URL,
+          changeOrigin: true,
+        },
+      },
     },
   }
 })

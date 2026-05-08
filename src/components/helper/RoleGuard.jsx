@@ -1,5 +1,5 @@
 import { Navigate, useLocation } from "react-router-dom"
-import { getSecureUser } from "../lib/cookieAuth";
+import { getSecureUser } from "../../lib/cookieAuth";
 
 const access = {
     superadmin: ["/admin", "/login", "/user"],

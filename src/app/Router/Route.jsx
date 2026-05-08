@@ -2,8 +2,8 @@ import { lazy, Suspense, React } from 'react'
 import { createBrowserRouter, Navigate, RouterProvider, redirect } from 'react-router-dom'
 import { PathGuard } from '../../components/helper/RoleGuard'
 import HeroPage from '../../pages/HeroPage/HeroPage'
-import { getSecureToken, setSecureUser, setSecureToken } from '../../components/lib/cookieAuth'
-import instance from '../../components/utils/service'
+import { getSecureToken, setSecureUser, setSecureToken, getSecureUser } from '../../lib/cookieAuth'
+import instance from '../../utils/service'
 
 const LoginPage = lazy(() => import('../../pages/Login/Login'))
 const DashboardPage = lazy(() => import('../../pages/Dashboard/Dashboard'))
@@ -29,7 +29,8 @@ function S(Component) {
   const BASE = import.meta.env.VITE_APP;
 
   function AuthGuard({ children }) {
-    const isAuth         = getSecureToken()
+    const isAuth         = getSecureUser()
+    // const isAuth         = getSecureToken()
 
     if (!isAuth) return <Navigate to={`login`} replace />
     return children
@@ -39,24 +40,6 @@ const router = createBrowserRouter([
     {
       path: '/login',
       element: S(LoginPage),
-      action: async ({ request }) => {
-        const formData = await request.formData()
-        const data = {
-          username: formData.get('username')?.trim(),
-          password: formData.get('password')?.trim(),
-        }
-        try {
-          const res = await instance.post(
-            `${import.meta.env.VITE_API_URL}/api/loginadmin`,
-            data,
-          )
-          setSecureUser(res?.data)
-          setSecureToken(res?.data?.Token)
-          return redirect('/')
-        } catch (error) {
-          return { error: error?.response?.data?.detail || 'Something went wrong' }
-        }
-      },
     },
     {
       path: '/',
