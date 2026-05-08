@@ -68,11 +68,21 @@
   cursor: not-allowed;
 }
 
-.error {
+.fieldError {
+  color: #e53e3e;
+  font-size: 0.75rem;
+  margin: 0;
+}
+
+.apiError {
   color: #e53e3e;
   font-size: 0.85rem;
   text-align: center;
-  margin-top: 0.75rem;
+  background: #fff5f5;
+  border: 1px solid #feb2b2;
+  border-radius: 8px;
+  padding: 0.5rem;
+  margin-bottom: 0.75rem;
 }
 
 .success {

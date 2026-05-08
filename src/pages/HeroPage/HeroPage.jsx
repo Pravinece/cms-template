@@ -1,28 +1,19 @@
-import React from 'react'
-import { Outlet } from 'react-router-dom'
+import { Outlet } from "react-router-dom";
+import Sidebar from "../Sidebar/Sidebar";
+import Topbar from "../Topbar/Topbar";
 
-function HeroPage() {
+export default function HeroPage() {
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-950">
-      <a href="#main-content" className="skip-link">Skip to main content</a>
-      {/* <Sidebar />
-      <Topbar /> */}
-      <main
-        id="main-content"
-        tabIndex={-1}
-        className={
-          'pt-16 min-h-screen transition-all duration-200 pl-64'}
-      >
-        <div className="p-6 max-w-7xl mx-auto">
-          {/* <ErrorBoundary> */}
-            <Outlet />
+    <div className="min-h-screen bg-gray-50 flex">
+      <Sidebar />
+      <div className="flex-1 pl-64">
+        <Topbar />
+        <main className="pt-16 p-6 max-w-7xl mx-auto">
+        {/* <ErrorBoundary> */}
+          <Outlet />
           {/* </ErrorBoundary> */}
-        </div>
-      </main>
-      {/* <ToastContainer /> */}
+        </main>
+      </div>
     </div>
-
-  )
+  );
 }
-
-export default HeroPage

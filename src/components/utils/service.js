@@ -4,6 +4,7 @@ import { clearAuth, getSecureToken } from "../lib/cookieAuth";
 const site = import.meta.env.VITE_API_URL;
 
 const publicEndpoints = ['/api/loginadmin'];
+console.log('publicEndpoints: ', publicEndpoints);
 
 const instance = Axios.create({
   baseURL: site,
@@ -46,7 +47,8 @@ instance.interceptors.response.use(
     return response;
   },
   (error) => {
-    if (error.response?.status === 401 || error.response?.status === 403) {
+    const isPublic = publicEndpoints.some(ep => error.config?.url?.includes(ep));
+    if (!isPublic && (error.response?.status === 401 || error.response?.status === 403)) {
       clearAuth();
       if (window.location.pathname !== '/canara') {
         window.location.href = '/canara';
