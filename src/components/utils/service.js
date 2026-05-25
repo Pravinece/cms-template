@@ -5,7 +5,6 @@ const site = import.meta.env.VITE_API_URL;
 const BASE_URL = import.meta.env.VITE_APP_URL;
 
 const publicEndpoints = ['/api/loginadmin'];
-console.log('publicEndpoints: ', publicEndpoints);
 
 const instance = Axios.create({
   baseURL: site,
