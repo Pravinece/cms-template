@@ -2,6 +2,7 @@ import Axios from "axios";
 import { clearAuth, getSecureToken } from "../lib/cookieAuth";
 
 const site = import.meta.env.VITE_API_URL;
+const BASE_URL = import.meta.env.VITE_APP_URL;
 
 const publicEndpoints = ['/api/loginadmin'];
 console.log('publicEndpoints: ', publicEndpoints);
@@ -50,8 +51,8 @@ instance.interceptors.response.use(
     const isPublic = publicEndpoints.some(ep => error.config?.url?.includes(ep));
     if (!isPublic && (error.response?.status === 401 || error.response?.status === 403)) {
       clearAuth();
-      if (window.location.pathname !== '/canara') {
-        window.location.href = '/canara';
+      if (window.location.pathname !== BASE_URL) {
+        window.location.href = BASE_URL;
       }
     }
     return Promise.reject(error);
